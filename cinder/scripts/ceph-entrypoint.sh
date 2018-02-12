@@ -154,6 +154,13 @@ function bootstrap_mon {
         exit 1
       fi
 
+
+      if [[ -z "$MON_IP" ]]; then
+        yum -y install iproute
+        MON_IP=$(ip -o -4 a | tr -s ' ' | grep -v -e ' lo[0-9:]*.*$' | cut -d' ' -f 4  | head -1 | sed "s#/.*##")
+        echo "Selected \"${MON_IP}\" as the IP address the of the monitor"
+      fi
+
       if [[ -z "$MON_IP" ]]; then
         log "ERROR- MON_IP must be defined as the IP address of the monitor"
         exit 1

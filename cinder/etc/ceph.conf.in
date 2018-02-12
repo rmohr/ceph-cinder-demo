@@ -1,5 +1,5 @@
 [global]
-mon host = 192.168.178.62
+mon host = {{ MON_IP }}
 auth cluster required = cephx
 auth service required = cephx
 auth client required = cephx

@@ -1,2 +1,3 @@
 ceph/.data
 cinder/.data
+cinder/etc/ceph.conf
