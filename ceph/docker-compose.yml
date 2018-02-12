@@ -12,8 +12,8 @@ services:
           - MON_IP=192.168.178.62
           - CEPH_PUBLIC_NETWORK=0.0.0.0/0
         volumes:
-            - ./etc:/etc/ceph
-            - ./lib:/var/lib/ceph
+            - ./.data/etc:/etc/ceph
+            - ./.data/lib:/var/lib/ceph
         ports:
             - 5000:5000
             - 6789:6789
