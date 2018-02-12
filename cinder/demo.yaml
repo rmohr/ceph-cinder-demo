@@ -65,6 +65,7 @@ spec:
           value: "cinder"
         - name: MYSQL_PASSWORD
           value: "password"
+        image: mariadb
         volumeMounts:
         - name: mariadbdata
           mountPath: "/var/lib/mysql"
