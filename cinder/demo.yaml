@@ -8,13 +8,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: kubevirt.io/ceph
-    replicas: 1
-    serviceName: "ceph"
+      name: io.kubevirt.ceph-demo
+  replicas: 1
+  serviceName: "ceph"
   template:
     metadata:
       labels:
-        name: kubevirt.io/ceph
+        name: io.kubevirt.ceph-demo
         kubevirt.io: ""
     spec:
       nodeSelector:
