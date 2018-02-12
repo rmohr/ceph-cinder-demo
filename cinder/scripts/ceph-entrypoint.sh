@@ -294,6 +294,8 @@ function bootstrap_mds {
     ceph ${CLI_OPTS} osd pool create cephfs_metadata 8
     ceph ${CLI_OPTS} fs new cephfs cephfs_metadata cephfs_data
 
+    ceph ${CLI_OPTS} osd pool create images 64
+
     # bootstrap MDS
     mkdir -p $CEPH_PATH_BASE/mds/${CLUSTER}-0
     ceph ${CLI_OPTS} auth get-or-create mds.0 mds 'allow' osd 'allow *' mon 'allow profile mds' -o $MDS_KEYRING

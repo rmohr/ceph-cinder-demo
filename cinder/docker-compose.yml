@@ -60,7 +60,7 @@ services:
         hostname: cinder-volume
         privileged: true
         volumes:
-            - ./ceph:/etc/ceph
+            - ./.data/ceph:/etc/ceph
             - ./etc:/etc/cinder
             - ./scripts:/scripts
         depends_on:
