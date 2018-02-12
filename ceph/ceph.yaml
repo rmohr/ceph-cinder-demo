@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ceph-demo
+  namespace: kube-system
+  labels:
+    kubevirt.io: ""
+spec:
+  selector:
+    matchLabels:
+      name: kubevirt.io/ceph
+    replicas: 1
+    serviceName: "ceph"
+  template:
+    metadata:
+      labels:
+        name: kubevirt.io/ceph
+        kubevirt.io: ""
+    spec:
+      nodeSelector:
+          "kubernetes.io/hostname": "master"
+      containers:
+      - name: kraken
+        args: ["demo"]
+        env:
+        - name: CEPH_DEMO_UID
+          value: "kubevirt"
+        - name: CEPH_DEMO_ACCESS_KEY
+          value: "kubevirt"
+        - name: CEPH_DEMO_SECRET_KEY
+          value: "kubevirt"
+        - name: CEPH_DEMO_BUCKET
+          value: "kubevirt"
+        - name: MON_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: CEPH_PUBLIC_NETWORK
+          value: "0.0.0.0/0"
+        image: ceph/demo
+        volumeMounts:
+        - name: varlib
+          mountPath: /var/lib/ceph
+        - name: etc
+          mountPath: /etc/ceph
+      volumes:
+      - name: varlib
+        hostPath:
+          path: /var/lib/ceph
+      - name: etc
+        hostPath:
+          path: /etc/ceph
