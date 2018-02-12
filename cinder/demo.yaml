@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ceph-demo
+  namespace: kube-system
+  labels:
+    kubevirt.io: ""
+spec:
+  selector:
+    matchLabels:
+      name: kubevirt.io/ceph
+    replicas: 1
+    serviceName: "ceph"
+  template:
+    metadata:
+      labels:
+        name: kubevirt.io/ceph
+        kubevirt.io: ""
+    spec:
+      nodeSelector:
+          "kubernetes.io/hostname": "master"
+      initContainers:
+      - name: init
+        image: rmohr/cinder-ceph-demo
+        command: "cp /data/scripts/* /scripts/ && cp /data/etc/* /etc/cinder/"
+        volumeMounts:
+        - name: scripts
+          mountPath: "/scripts"
+        - name: cinderetc
+          mountPath: "/etc/cinder"
+      containers:
+      - name: kraken
+        command: "/scripts/ceph-entrypoint.sh demo"
+        env:
+        - name: CEPH_DEMO_UID
+          value: "kubevirt"
+        - name: CEPH_DEMO_ACCESS_KEY
+          value: "kubevirt"
+        - name: CEPH_DEMO_SECRET_KEY
+          value: "kubevirt"
+        - name: CEPH_DEMO_BUCKET
+          value: "kubevirt"
+        - name: MON_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: CEPH_PUBLIC_NETWORK
+          value: "0.0.0.0/0"
+        image: ceph/demo
+        volumeMounts:
+        - name: cephvarlib
+          mountPath: /var/lib/ceph
+        - name: cephetc
+          mountPath: /etc/ceph
+      - name: mariadb
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "password"
+        - name: MYSQL_DATABASE
+          value: "cinder"
+        - name: MYSQL_USER
+          value: "cinder"
+        - name: MYSQL_PASSWORD
+          value: "password"
+        volumeMounts:
+        - name: mariadbdata
+          mountPath: "/var/lib/mysql"
+      - name: rabbitmq
+        image: rabbitmq
+      - name: cinder-api
+        image: rmohr/cinder:ocata
+        command: "sh /scripts/cinder-api.sh"
+        env:
+        - name: INIT_DB
+          value: "true"
+        volumeMounts:
+        - name: scripts
+          mountPath: "/scripts"
+        - name: cinderetc
+          mountPath: "/etc/cinder"
+      - name: cinder-scheduler
+        image: rmohr/cinder:ocata
+        command: cinder-scheduler
+        volumeMounts:
+        - name: cinderetc
+          mountPath: "/etc/cinder"
+      - name: cinder-volume
+        image: rmohr/cinder:ocata
+        command: "sh /scripts/ceph-service.sh"
+        env:
+        - name: MON_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        volumeMounts:
+        - name: scripts
+          mountPath: "/scripts"
+        - name: cinderetc
+          mountPath: "/etc/cinder"
+        - name: cephetc
+          mountPath: "/etc/ceph"
+      volumes:
+      - name: scripts 
+        emptyDir: {}
+      - name: cinderetc
+        emptyDir: {}
+      - name: cephvarlib
+        emptyDir: {}
+      - name: cephetc
+        emptyDir: {}
+      - name: mariadbdata
+        emptyDir: {}
