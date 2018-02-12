@@ -49,6 +49,8 @@ spec:
           value: "0.0.0.0/0"
         image: ceph/demo
         volumeMounts:
+        - name: scripts
+          mountPath: "/scripts"
         - name: cephvarlib
           mountPath: /var/lib/ceph
         - name: cephetc
