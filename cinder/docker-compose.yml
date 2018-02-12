@@ -13,6 +13,9 @@ services:
         hostname: mariadb
         environment:
           - MYSQL_ROOT_PASSWORD=password
+          - MYSQL_DATABASE=cinder
+          - MYSQL_USER=cinder
+          - MYSQL_PASSWORD=password
         ports:
           - 3306:3306
         networks:
@@ -20,7 +23,6 @@ services:
                 ipv4_address: 172.49.49.6
         volumes:
             - ./.data/db_data:/var/lib/mysql
-            - ./scripts/mariadb:/docker-entrypoint-initdb.d
     cinder-api:
         image: rmohr/cinder:ocata
         hostname: cinder-api
