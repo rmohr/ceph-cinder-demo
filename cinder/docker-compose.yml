@@ -5,9 +5,6 @@ services:
         ports:
           - "5672:5672"
         hostname: rabbitmq
-        networks:
-            cindernet:
-                ipv4_address: 172.49.49.5
     mariadb:
         image: mariadb
         hostname: mariadb
@@ -18,11 +15,9 @@ services:
           - MYSQL_PASSWORD=password
         ports:
           - 3306:3306
-        networks:
-            cindernet:
-                ipv4_address: 172.49.49.6
         volumes:
             - ./.data/db_data:/var/lib/mysql
+        network_mode: "host"
     cinder-api:
         image: rmohr/cinder:ocata
         hostname: cinder-api
@@ -34,9 +29,6 @@ services:
             - 8776:8776
         depends_on:
           - mariadb
-        extra_hosts:
-            - "rabbitmq:172.49.49.5"
-            - "mariadb:172.49.49.6"
         environment:
             - INIT_DB=true
         command: sh /scripts/cinder-api.sh
@@ -49,9 +41,6 @@ services:
           - mariadb
           - rabbitmq
           - cinder-api
-        extra_hosts:
-            - "rabbitmq:172.49.49.5"
-            - "mariadb:172.49.49.6"
         network_mode: "host"
         depends_on:
           - cinder-api
@@ -70,9 +59,6 @@ services:
           - ceph
         ports:
             - 3260:3260
-        extra_hosts:
-            - "rabbitmq:172.49.49.5"
-            - "mariadb:172.49.49.6"
         network_mode: "host"
         restart: on-failure
         command: bash -c "/scripts/ceph-service.sh"
@@ -99,12 +85,3 @@ services:
         entrypoint: 
           - /scripts/ceph-entrypoint.sh
           - demo
-
-networks:
-    cindernet:
-        driver: bridge
-        ipam:
-            driver: default
-            config:
-            -
-              subnet: 172.49.49.0/24
