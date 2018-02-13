@@ -21,4 +21,12 @@ do
   sleep 2
 done
 
+
+# Import the cinder user.  This gives us a known key so we can use it also in
+# a kubernetes secret.
+ceph auth import -i /etc/cinder/ceph.client.cinder.keyring.in
+ceph auth caps client.cinder mon 'allow r' osd 'allow class-read object_prefix rdb_children, allow rwx pool=images'
+cp /etc/cinder/ceph.client.cinder.keyring.in /etc/ceph/ceph.client.cinder.keyring
+
+
 cinder-volume -d

@@ -125,3 +125,11 @@ apiVersion: storage.k8s.io/v1beta1
 metadata:
   name: standalone-cinder
 provisioner: openstack.org/standalone-cinder
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: standalone-cinder-cephx-secret
+type: "kubernetes.io/rbd"
+data:
+  key: QVFDMkI0SmE2MDgzT3hBQTdOR0dpb0xpR1lqOHlJTFpkYUI1T0E9PQo=
