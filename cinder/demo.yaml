@@ -8,21 +8,22 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: kubevirt.io/ceph
-    replicas: 1
-    serviceName: "ceph"
+      name: io.kubevirt.ceph-demo
+  replicas: 1
+  serviceName: "ceph"
   template:
     metadata:
       labels:
-        name: kubevirt.io/ceph
+        name: io.kubevirt.ceph-demo
         kubevirt.io: ""
     spec:
       nodeSelector:
           "kubernetes.io/hostname": "master"
+      hostNetwork: true
       initContainers:
       - name: init
         image: rmohr/cinder-ceph-demo
-        command: "cp /data/scripts/* /scripts/ && cp /data/etc/* /etc/cinder/"
+        command: ["/bin/bash", "-c", "cp -v /data/scripts/* /scripts/ && cp /data/etc/* /etc/cinder/"]
         volumeMounts:
         - name: scripts
           mountPath: "/scripts"
@@ -30,7 +31,7 @@ spec:
           mountPath: "/etc/cinder"
       containers:
       - name: kraken
-        command: "/scripts/ceph-entrypoint.sh demo"
+        command: ["/scripts/ceph-entrypoint.sh", "demo"]
         env:
         - name: CEPH_DEMO_UID
           value: "kubevirt"
@@ -48,6 +49,8 @@ spec:
           value: "0.0.0.0/0"
         image: ceph/demo
         volumeMounts:
+        - name: scripts
+          mountPath: "/scripts"
         - name: cephvarlib
           mountPath: /var/lib/ceph
         - name: cephetc
@@ -62,6 +65,7 @@ spec:
           value: "cinder"
         - name: MYSQL_PASSWORD
           value: "password"
+        image: mariadb
         volumeMounts:
         - name: mariadbdata
           mountPath: "/var/lib/mysql"
@@ -69,7 +73,7 @@ spec:
         image: rabbitmq
       - name: cinder-api
         image: rmohr/cinder:ocata
-        command: "sh /scripts/cinder-api.sh"
+        command: ["/scripts/cinder-api.sh"]
         env:
         - name: INIT_DB
           value: "true"
@@ -80,13 +84,13 @@ spec:
           mountPath: "/etc/cinder"
       - name: cinder-scheduler
         image: rmohr/cinder:ocata
-        command: cinder-scheduler
+        command: ["cinder-scheduler"]
         volumeMounts:
         - name: cinderetc
           mountPath: "/etc/cinder"
       - name: cinder-volume
         image: rmohr/cinder:ocata
-        command: "sh /scripts/ceph-service.sh"
+        command: ["/scripts/ceph-service.sh"]
         env:
         - name: MON_IP
           valueFrom:
