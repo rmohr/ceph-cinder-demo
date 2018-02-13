@@ -2,7 +2,7 @@
 
 set -e
 
-yum -y install python-rbd python-rados iproute
+yum -y install python-rbd python-rados iproute ceph-common
 
 if [[ -z "$MON_IP" ]]; then
   MON_IP=$(ip -o -4 a | tr -s ' ' | grep -v -e ' lo[0-9:]*.*$' | cut -d' ' -f 4  | head -1 | sed "s#/.*##")
