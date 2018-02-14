@@ -1,19 +1,9 @@
 version: "2"
 services:
     ceph:
-        image: ceph/demo:tag-build-master-kraken-centos-7
+        image: kubevirtci/ceph:kraken
         hostname: ceph
         privileged: true
-        environment:
-          - CEPH_DEMO_UID=qqq
-          - CEPH_DEMO_ACCESS_KEY=qqq
-          - CEPH_DEMO_SECRET_KEY=qqq
-          - CEPH_DEMO_BUCKET=qqq
-          - MON_IP=192.168.178.62
-          - CEPH_PUBLIC_NETWORK=0.0.0.0/0
-        volumes:
-            - ./.data/etc:/etc/ceph
-            - ./.data/lib:/var/lib/ceph
         ports:
             - 5000:5000
             - 6789:6789

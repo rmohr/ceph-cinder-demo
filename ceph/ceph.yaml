@@ -23,21 +23,13 @@ spec:
       - name: kraken
         args: ["demo"]
         env:
-        - name: CEPH_DEMO_UID
-          value: "kubevirt"
-        - name: CEPH_DEMO_ACCESS_KEY
-          value: "kubevirt"
-        - name: CEPH_DEMO_SECRET_KEY
-          value: "kubevirt"
-        - name: CEPH_DEMO_BUCKET
-          value: "kubevirt"
         - name: MON_IP
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP
         - name: CEPH_PUBLIC_NETWORK
           value: "0.0.0.0/0"
-        image: ceph/demo
+        image: kubevirtci/ceph:kraken
         volumeMounts:
         - name: varlib
           mountPath: /var/lib/ceph

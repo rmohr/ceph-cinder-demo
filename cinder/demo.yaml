@@ -20,18 +20,9 @@ spec:
       nodeSelector:
           "kubernetes.io/hostname": "master"
       hostNetwork: true
-      initContainers:
-      - name: init
-        image: kubevirtci/cinder-ceph-demo
-        command: ["/bin/bash", "-c", "cp -v /data/scripts/* /scripts/ && cp /data/etc/* /etc/cinder/"]
-        volumeMounts:
-        - name: scripts
-          mountPath: "/scripts"
-        - name: cinderetc
-          mountPath: "/etc/cinder"
       containers:
       - name: kraken
-        command: ["/scripts/ceph-entrypoint.sh", "demo"]
+        args: ["demo"]
         env:
         - name: CEPH_DEMO_UID
           value: "kubevirt"
@@ -72,7 +63,7 @@ spec:
       - name: rabbitmq
         image: rabbitmq
       - name: cinder-api
-        image: rmohr/cinder:ocata
+        image: kubevirtci/cinder:ocata
         command: ["/scripts/cinder-api.sh"]
         env:
         - name: INIT_DB
@@ -83,13 +74,13 @@ spec:
         - name: cinderetc
           mountPath: "/etc/cinder"
       - name: cinder-scheduler
-        image: rmohr/cinder:ocata
+        image: kubevirtci/cinder:ocata
         command: ["cinder-scheduler"]
         volumeMounts:
         - name: cinderetc
           mountPath: "/etc/cinder"
       - name: cinder-volume
-        image: rmohr/cinder:ocata
+        image: kubevirtci/cinder:ocata
         command: ["/scripts/ceph-service.sh"]
         env:
         - name: MON_IP
