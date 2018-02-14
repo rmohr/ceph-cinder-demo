@@ -3,7 +3,4 @@ mon host = {{ MON_IP }}
 auth cluster required = cephx
 auth service required = cephx
 auth client required = cephx
-keyring = /etc/ceph/ceph.client.admin.keyring
-
-[client.images]
-keyring = /etc/ceph/ceph.client.admin.keyring
+keyring = /etc/ceph/ceph.client.cinder.keyring

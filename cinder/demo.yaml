@@ -103,6 +103,11 @@ spec:
           mountPath: "/etc/cinder"
         - name: cephetc
           mountPath: "/etc/ceph"
+      - name: cinder-provisioner
+        image: quay.io/aglitke/standalone-cinder-provisioner:latest
+        env:
+        - name: OS_CINDER_ENDPOINT
+          value: http://127.0.0.1:8776/v3
       volumes:
       - name: scripts 
         emptyDir: {}
@@ -114,3 +119,17 @@ spec:
         emptyDir: {}
       - name: mariadbdata
         emptyDir: {}
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1beta1
+metadata:
+  name: standalone-cinder
+provisioner: openstack.org/standalone-cinder
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: standalone-cinder-cephx-secret
+type: "kubernetes.io/rbd"
+data:
+  key: QVFDMkI0SmE2MDgzT3hBQTdOR0dpb0xpR1lqOHlJTFpkYUI1T0E9PQo=

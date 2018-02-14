@@ -2,7 +2,7 @@
 
 set -e
 
-yum -y install python-rbd python-rados iproute
+yum -y install python-rbd python-rados iproute ceph-common
 
 if [[ -z "$MON_IP" ]]; then
   MON_IP=$(ip -o -4 a | tr -s ' ' | grep -v -e ' lo[0-9:]*.*$' | cut -d' ' -f 4  | head -1 | sed "s#/.*##")
@@ -20,5 +20,13 @@ while [ ! -f /etc/ceph/ceph.client.admin.keyring ]
 do
   sleep 2
 done
+
+
+# Import the cinder user.  This gives us a known key so we can use it also in
+# a kubernetes secret.
+ceph auth import -i /etc/cinder/ceph.client.cinder.keyring.in
+ceph auth caps client.cinder mon 'allow r' osd 'allow class-read object_prefix rdb_children, allow rwx pool=images'
+cp /etc/cinder/ceph.client.cinder.keyring.in /etc/ceph/ceph.client.cinder.keyring
+
 
 cinder-volume -d
