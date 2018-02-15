@@ -1,0 +1,21 @@
+---
+- template:
+    src: "{{ role_path }}/templates/inventory"
+    dest: /inventory
+- name: "Checkout openshift playbooks"
+  git:
+    repo: 'https://github.com/openshift/openshift-ansible.git'
+    dest: /playbooks/
+    clone: yes
+    version: openshift-ansible-3.9.0-0.42.0
+- lineinfile:
+    path: /etc/ansible/ansible.cfg
+    insertafter: '#host_key_checking'
+    regexp: '^host_key_checking'
+    line: 'host_key_checking = False'
+- copy:
+    src: id_rsa
+    dest: /id_rsa
+    mode: 0600
+- name: Provision openshift via ansible through ansible
+  command: /bin/bash -c 'ansible-playbook --key-file "/id_rsa" -i /inventory /playbooks/playbooks/deploy_cluster.yml | tee /ansible.log '

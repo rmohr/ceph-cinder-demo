@@ -1,0 +1,12 @@
+---
+- hosts: nodes
+  become: true
+  become_user: root
+  roles:
+    - common
+- hosts: masters
+  become: true
+  become_user: root
+  roles:
+    - common
+    - master

@@ -1,3 +1,6 @@
 ceph/.data
 cinder/.data
 cinder/etc/ceph.conf
+id_rsa*
+*.retry
+.vagrant
