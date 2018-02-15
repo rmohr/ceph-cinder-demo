@@ -40,8 +40,6 @@ spec:
           value: "0.0.0.0/0"
         image: ceph/demo
         volumeMounts:
-        - name: scripts
-          mountPath: "/scripts"
         - name: cephvarlib
           mountPath: /var/lib/ceph
         - name: cephetc
@@ -69,14 +67,9 @@ spec:
         - name: INIT_DB
           value: "true"
         volumeMounts:
-        - name: cinderetc
-          mountPath: "/etc/cinder"
       - name: cinder-scheduler
         image: kubevirtci/cinder:ocata
         command: ["cinder-scheduler"]
-        volumeMounts:
-        - name: cinderetc
-          mountPath: "/etc/cinder"
       - name: cinder-volume
         image: kubevirtci/cinder:ocata
         command: ["/scripts/ceph-service.sh"]
@@ -86,10 +79,6 @@ spec:
             fieldRef:
               fieldPath: status.hostIP
         volumeMounts:
-        - name: scripts
-          mountPath: "/scripts"
-        - name: cinderetc
-          mountPath: "/etc/cinder"
         - name: cephetc
           mountPath: "/etc/ceph"
       - name: cinder-provisioner
@@ -98,8 +87,6 @@ spec:
         - name: OS_CINDER_ENDPOINT
           value: http://127.0.0.1:8776/v3
       volumes:
-      - name: scripts 
-        emptyDir: {}
       - name: cinderetc
         emptyDir: {}
       - name: cephvarlib

@@ -31,15 +31,15 @@ Vagrant.configure(2) do |config|
       master.vm.provider :libvirt do |domain|
           domain.memory = 3096
       end
-      master.vm.provision "master", type: "ansible", run: "never" do |ansible|
+      master.vm.provision "master", type: "ansible" do |ansible|
         ansible.playbook = "demo.yaml"
         ansible.groups = {
           "nodes" => ["node"],
           "masters" => ["master"],
         }
       end
-      master.vm.provision "provisioner", type: "ansible", run: "never" do |ansible|
-        ansible.playbook = "provisioner.yaml"
+      master.vm.provision "storage", type: "ansible" do |ansible|
+        ansible.playbook = "storage.yaml"
         ansible.groups = {
           "nodes" => ["node"],
           "masters" => ["master"],
@@ -53,7 +53,7 @@ Vagrant.configure(2) do |config|
       node.vm.provider :libvirt do |domain|
           domain.memory = 2048
       end
-      node.vm.provision "node", type: "ansible", run: "never" do |ansible|
+      node.vm.provision "node", type: "ansible" do |ansible|
         ansible.playbook = "demo.yaml"
         ansible.groups = {
           "nodes" => ["node"],
