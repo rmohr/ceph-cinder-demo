@@ -17,21 +17,16 @@ spec:
         name: io.kubevirt.ceph-demo
         kubevirt.io: ""
     spec:
+      updateStrategy:
+        type: RollingUpdate
+      serviceAccountName: provisioner
       nodeSelector:
-          "kubernetes.io/hostname": "master"
+          "kubernetes.io/hostname": "{{ inventory_hostname }}"
       hostNetwork: true
       containers:
       - name: kraken
         args: ["demo"]
         env:
-        - name: CEPH_DEMO_UID
-          value: "kubevirt"
-        - name: CEPH_DEMO_ACCESS_KEY
-          value: "kubevirt"
-        - name: CEPH_DEMO_SECRET_KEY
-          value: "kubevirt"
-        - name: CEPH_DEMO_BUCKET
-          value: "kubevirt"
         - name: MON_IP
           valueFrom:
             fieldRef:
@@ -40,8 +35,6 @@ spec:
           value: "0.0.0.0/0"
         image: ceph/demo
         volumeMounts:
-        - name: scripts
-          mountPath: "/scripts"
         - name: cephvarlib
           mountPath: /var/lib/ceph
         - name: cephetc
@@ -68,17 +61,9 @@ spec:
         env:
         - name: INIT_DB
           value: "true"
-        volumeMounts:
-        - name: scripts
-          mountPath: "/scripts"
-        - name: cinderetc
-          mountPath: "/etc/cinder"
       - name: cinder-scheduler
         image: kubevirtci/cinder:ocata
         command: ["cinder-scheduler"]
-        volumeMounts:
-        - name: cinderetc
-          mountPath: "/etc/cinder"
       - name: cinder-volume
         image: kubevirtci/cinder:ocata
         command: ["/scripts/ceph-service.sh"]
@@ -88,10 +73,6 @@ spec:
             fieldRef:
               fieldPath: status.hostIP
         volumeMounts:
-        - name: scripts
-          mountPath: "/scripts"
-        - name: cinderetc
-          mountPath: "/etc/cinder"
         - name: cephetc
           mountPath: "/etc/ceph"
       - name: cinder-provisioner
@@ -100,10 +81,6 @@ spec:
         - name: OS_CINDER_ENDPOINT
           value: http://127.0.0.1:8776/v3
       volumes:
-      - name: scripts 
-        emptyDir: {}
-      - name: cinderetc
-        emptyDir: {}
       - name: cephvarlib
         emptyDir: {}
       - name: cephetc

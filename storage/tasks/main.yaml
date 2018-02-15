@@ -1,0 +1,12 @@
+---
+- name: check for user
+  command: "/usr/local/bin/oc get serviceaccount provisioner -n kube-system"
+  register: user
+- command: /usr/local/bin/oc create serviceaccount provisioner -n kube-system
+  when: user.stdout == ""
+- command: /usr/local/bin/oc adm policy add-scc-to-user privileged system:serviceaccount:kube-system:provisioner
+- template:
+    src: "{{ role_path }}/templates/provisioner.yaml"
+    dest: /provisioner.yaml
+- name: Apply the provisioner
+  command: /usr/local/bin/oc apply -f /provisioner.yaml
