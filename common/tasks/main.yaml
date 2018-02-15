@@ -1,0 +1,59 @@
+---
+- name: Build hosts file
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: '{{ hostvars[item].ansible_ssh_host }} {{item}}'
+    state: present
+  with_items: '{{ groups["all"] }}'  
+- name: Check if ssh key exists
+  delegate_to: 127.0.0.1
+  run_once: true
+  become: false
+  stat:
+    path: id_rsa
+  register: stat_result
+- name: generate private ssh key
+  local_action: command ssh-keygen -b 2048 -t rsa -f id_rsa -q -N ""
+  run_once: true
+  become: false
+  when: stat_result.stat.exists == False
+- name: Set authorized key took from file
+  authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', 'id_rsa.pub') }}"
+- name: Install openshift repository
+  yum:
+    name: centos-release-openshift-origin
+    state: latest
+- name: Install openshift dependencies
+  yum:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - yum-utils 
+    - ansible
+    - wget
+    - git
+    - net-tools
+    - bind-utils
+    - iptables-services
+    - bridge-utils
+    - bash-completion
+    - kexec-tools
+    - sos
+    - psacct
+    - docker
+- name: Enable Docker
+  systemd:
+    name: docker
+    enabled: yes
+- name: Start Docker
+  systemd:
+    name: docker
+    state: started
+    daemon_reload: yes
+- selinux:
+    policy: targeted
+    state: permissive
