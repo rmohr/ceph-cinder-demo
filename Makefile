@@ -8,3 +8,6 @@ cluster-openshift:
 
 cluster-storage:
 	vagrant provision --provision-with=storage
+
+cluster-kubevirt:
+	vagrant provision --provision-with=kubevirt
