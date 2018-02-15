@@ -10,7 +10,12 @@ make cluster-up
 make cluster-openshift
 ```
 
-The deployment can take pretty long.
+The deployment can take pretty long. Also you will not see much output from the
+openshift installer while it is running. To see what is going on in the installer run
+
+```
+vagrant ssh master -c "tailf /ansible.log"
+```
 
 ## Deploying OpenShift on arbitrary nodes
 
