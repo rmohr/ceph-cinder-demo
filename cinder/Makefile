@@ -1,9 +1,14 @@
 export GO15VENDOREXPERIMENT := 1
+DOCKER_ORG=kubevirtci
+DOCKER_TAG=latest
 
 all: build
 
 build:
-	hack/dockerized "hack/glide-checksync.sh && ./hack/check.sh && ./hack/build-go.sh install ${WHAT}"
+	docker build -t ${DOCKER_ORG}/cinder-ceph-demo:${DOCKER_TAG} images/cinder-ceph-demo
+
+release:
+	docker push ${DOCKER_ORG}/cinder-ceph-demo:${DOCKER_TAG}
 
 clean:
 	hack/dockerized "./hack/build-go.sh clean ${WHAT} && rm _out/* -rf && rm tools/openapispec/openapispec -rf"
@@ -22,6 +27,4 @@ cluster-down:
 cluster-deploy:
 	./cluster/deploy.sh
 
-cluster-sync: cluster-build cluster-deploy
-
-.PHONY: all build clean distclean cluster-up cluster-down cluster-deploy cluster-sync
+.PHONY: all build clean distclean cluster-up cluster-down cluster-deploy
