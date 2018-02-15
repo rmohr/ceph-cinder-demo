@@ -22,7 +22,7 @@ spec:
       hostNetwork: true
       initContainers:
       - name: init
-        image: rmohr/cinder-ceph-demo
+        image: kubevirtci/cinder-ceph-demo
         command: ["/bin/bash", "-c", "cp -v /data/scripts/* /scripts/ && cp /data/etc/* /etc/cinder/"]
         volumeMounts:
         - name: scripts
