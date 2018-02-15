@@ -1,4 +1,6 @@
-FROM rmohr/cinder:ocata
+FROM kubevirtci/cinder:intermediate
 
-COPY etc/* /data/etc/
-COPY scripts/* /data/scripts/
+RUN yum -y install python-rbd python-rados iproute ceph-common && yum clean all
+
+COPY etc/* /etc/cinder/
+COPY scripts/* /scripts/
