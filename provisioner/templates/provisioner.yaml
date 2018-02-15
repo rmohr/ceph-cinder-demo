@@ -17,21 +17,14 @@ spec:
         name: io.kubevirt.ceph-demo
         kubevirt.io: ""
     spec:
+      serviceAccountName: provisioner
       nodeSelector:
-          "kubernetes.io/hostname": "master"
+          "kubernetes.io/hostname": "{{ inventory_hostname }}"
       hostNetwork: true
       containers:
       - name: kraken
         args: ["demo"]
         env:
-        - name: CEPH_DEMO_UID
-          value: "kubevirt"
-        - name: CEPH_DEMO_ACCESS_KEY
-          value: "kubevirt"
-        - name: CEPH_DEMO_SECRET_KEY
-          value: "kubevirt"
-        - name: CEPH_DEMO_BUCKET
-          value: "kubevirt"
         - name: MON_IP
           valueFrom:
             fieldRef:
@@ -69,8 +62,6 @@ spec:
         - name: INIT_DB
           value: "true"
         volumeMounts:
-        - name: scripts
-          mountPath: "/scripts"
         - name: cinderetc
           mountPath: "/etc/cinder"
       - name: cinder-scheduler

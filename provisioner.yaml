@@ -1,0 +1,5 @@
+- hosts: masters
+  become: true
+  become_user: root
+  roles:
+    - provisioner

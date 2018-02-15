@@ -38,6 +38,13 @@ Vagrant.configure(2) do |config|
           "masters" => ["master"],
         }
       end
+      master.vm.provision "provisioner", type: "ansible", run: "never" do |ansible|
+        ansible.playbook = "provisioner.yaml"
+        ansible.groups = {
+          "nodes" => ["node"],
+          "masters" => ["master"],
+        }
+      end
   end
 
   config.vm.define "node" do |node|
