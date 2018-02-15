@@ -4,3 +4,5 @@ cinder/etc/ceph.conf
 id_rsa*
 *.retry
 .vagrant
+.oc
+.kubeconfig

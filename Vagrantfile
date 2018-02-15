@@ -32,7 +32,7 @@ Vagrant.configure(2) do |config|
           domain.memory = 3096
       end
       master.vm.provision "master", type: "ansible" do |ansible|
-        ansible.playbook = "demo.yaml"
+        ansible.playbook = "openshift.yaml"
         ansible.groups = {
           "nodes" => ["node"],
           "masters" => ["master"],
@@ -54,7 +54,7 @@ Vagrant.configure(2) do |config|
           domain.memory = 2048
       end
       node.vm.provision "node", type: "ansible" do |ansible|
-        ansible.playbook = "demo.yaml"
+        ansible.playbook = "openshift.yaml"
         ansible.groups = {
           "nodes" => ["node"],
           "masters" => ["master"],
