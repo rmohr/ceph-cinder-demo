@@ -98,7 +98,7 @@ spec:
         - name: cephetc
           mountPath: "/etc/ceph"
       - name: cinder-provisioner
-        image: quay.io/aglitke/standalone-cinder-provisioner:latest
+        image: quay.io/aglitke/standalone-cinder-provisioner:{{ storageRelease }}
         env:
         - name: OS_CINDER_ENDPOINT
           value: http://127.0.0.1:8776/v3

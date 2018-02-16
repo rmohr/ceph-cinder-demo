@@ -7,7 +7,7 @@
     repo: 'https://github.com/openshift/openshift-ansible.git'
     dest: /playbooks/
     clone: yes
-    version: openshift-ansible-3.9.0-0.42.0
+    version: "{{ openshiftRelease }}"
 - lineinfile:
     path: /etc/ansible/ansible.cfg
     insertafter: '#host_key_checking'

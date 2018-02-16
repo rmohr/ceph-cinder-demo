@@ -1,6 +1,6 @@
 ---
 - name: Apply the kubevirt release
-  command: /usr/local/bin/oc apply -f https://github.com/kubevirt/kubevirt/releases/download/v0.3.0-alpha.0/kubevirt.yaml
+  command: "/usr/local/bin/oc apply -f https://github.com/kubevirt/kubevirt/releases/download/{{ kubevirtRelease }}/kubevirt.yaml"
 - name: Grant privileged access to kubevirt-controller
   command: /usr/local/bin/oc adm policy add-scc-to-user privileged -z kubevirt-controller -n kube-system
 - name: Grant privileged access to all node-related components (virt-handler, virt-launcher, ...)
