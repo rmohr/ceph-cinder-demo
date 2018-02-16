@@ -45,6 +45,13 @@ Vagrant.configure(2) do |config|
           "masters" => ["master"],
         }
       end
+      master.vm.provision "kubevirt", type: "ansible" do |ansible|
+        ansible.playbook = "kubevirt.yaml"
+        ansible.groups = {
+          "nodes" => ["node"],
+          "masters" => ["master"],
+        }
+      end
   end
 
   config.vm.define "node" do |node|
