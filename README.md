@@ -99,6 +99,9 @@ master ansible_host=192.168.200.4 ansible_user=root
 
 [storage]
 master ansible_host=192.168.200.4 ansible_user=root
+
+[kubevirt]
+master ansible_host=192.168.200.4 ansible_user=root
 ```
 
 Save it in `myinventory`. Then run
