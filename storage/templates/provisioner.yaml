@@ -123,32 +123,3 @@ metadata:
 type: "kubernetes.io/rbd"
 data:
   key: QVFDMkI0SmE2MDgzT3hBQTdOR0dpb0xpR1lqOHlJTFpkYUI1T0E9PQo=
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: demo-pvc
-spec:
-  storageClassName: standalone-cinder
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: demo-pod
-spec:
-  containers:
-  - name: demo
-    image: alpine
-    command: ["sleep", "300"]
-    volumeMounts:
-    - name: ceph-storage
-      mountPath: /storage
-  volumes:
-  - name: ceph-storage
-    persistentVolumeClaim:
-      claimName: demo-pvc
