@@ -7,4 +7,4 @@ OPTIONS=$(vagrant ssh-config master | grep -v '^Host ' | awk -v ORS=' ' 'NF{prin
 
 scp $OPTIONS master:/usr/local/bin/oc ${DIR}/../.oc
 chmod u+x ${DIR}/../.oc
-vagrant ssh master -c "sudo cat /etc/origin/master/openshift-master.kubeconfig" >${DIR}/..//.kubeconfig
+vagrant ssh master -c "sudo cat /etc/origin/master/openshift-master.kubeconfig" >${DIR}/../.kubeconfig
