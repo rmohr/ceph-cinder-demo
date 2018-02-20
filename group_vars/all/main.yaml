@@ -1,3 +1,3 @@
-kubevirtRelease: v0.3.0-alpha.0
+kubevirtRelease: sprint5
 storageRelease: latest
 openshiftRelease: openshift-ansible-3.9.0-0.42.0 
