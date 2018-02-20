@@ -85,6 +85,24 @@ $ ./oc.sh get vms -o yaml | grep phase
     phase: Running
 ```
 
+To connect to a VM:
+
+```bash
+./oc.sh console demo-vm  # Serial console
+./oc.sh vnc demo-vm      # VNC
+```
+
+To import and run a cirros vm:
+
+```bash
+$ ./oc.sh create -f examples/import-cirros.yaml
+$ sleep 120  # The cirros disk image downloads into a PVC
+$ ./oc.sh get pod disk-importer  # Repeat until pod is Completed
+$ ./oc.sh create -f examples/vm-cirros-clone.yaml
+$ ./oc.sh get vms -o yaml | grep phase
+    phase: Running
+```
+
 ## Deploying OpenShift on arbitrary nodes
 
 First create an inventory:
