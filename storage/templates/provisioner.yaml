@@ -115,6 +115,8 @@ apiVersion: storage.k8s.io/v1beta1
 metadata:
   name: standalone-cinder
 provisioner: openstack.org/standalone-cinder
+parameters:
+  smartclone: "true"
 ---
 apiVersion: v1
 kind: Secret
