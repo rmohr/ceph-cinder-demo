@@ -16,13 +16,13 @@ containerized=true
 enable_excluders=false
 
 [masters]
-master openshift_ip={{ ansible_ssh_host }}
+master openshift_ip={{ ansible_host }}
 
 [etcd]
-master openshift_ip={{ ansible_ssh_host }}
+master openshift_ip={{ ansible_host }}
 
 [nodes]
-master openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=true openshift_ip={{ ansible_ssh_host }}
+master openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=true openshift_ip={{ ansible_host }}
 {% for host in groups['all'] %}
-{{ host }} openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=true openshift_ip={{ hostvars[host].ansible_ssh_host }}
+{{ host }} openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=true openshift_ip={{ hostvars[host].ansible_host }}
 {% endfor %}
