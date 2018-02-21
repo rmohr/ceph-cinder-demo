@@ -21,6 +21,8 @@ spec:
   - name: importer
     image: kubevirtci/disk-importer
     env:
+      - name: CURL_OPTS
+        value: "-L"
       - name: INSTALL_TO
         value: /storage/disk.img
       - name: URL

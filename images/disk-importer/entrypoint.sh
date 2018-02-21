@@ -5,7 +5,7 @@
 set -e
 
 echo "Downloading $URL"
-curl -o /tmp/disk $URL
+curl $CURL_OPTS -o /tmp/disk $URL
 
 echo "Converting to RAW and installing to $INSTALL_TO"
 qemu-img convert -O raw /tmp/disk $INSTALL_TO
