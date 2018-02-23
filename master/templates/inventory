@@ -14,6 +14,17 @@ openshift_repos_enable_testing=True
 openshift_image_tag=latest
 containerized=true
 enable_excluders=false
+ansible_service_broker_registry_whitelist=['.*-apb$']
+openshift_hosted_etcd_storage_kind=nfs
+openshift_hosted_etcd_storage_nfs_options="*(rw,root_squash,sync,no_wdelay)"
+openshift_hosted_etcd_storage_nfs_directory=/opt/etcd-vol
+openshift_hosted_etcd_storage_volume_name=etcd-vol
+openshift_hosted_etcd_storage_access_modes=["ReadWriteOnce"]
+openshift_hosted_etcd_storage_volume_size=1G
+openshift_hosted_etcd_storage_labels={'storage': 'etcd'}
+
+[nfs]
+master openshift_ip={{ ansible_ssh_host }}
 
 [masters]
 master openshift_ip={{ ansible_ssh_host }}
