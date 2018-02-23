@@ -17,5 +17,7 @@
     src: id_rsa
     dest: /id_rsa
     mode: 0600
+- name: Provision openshift prerequisites
+  command: /bin/bash -c 'ansible-playbook --key-file "/id_rsa" -i /inventory /playbooks/playbooks/prerequisites.yaml | tee /ansible.log '
 - name: Provision openshift via ansible through ansible
   command: /bin/bash -c 'ansible-playbook --key-file "/id_rsa" -i /inventory /playbooks/playbooks/deploy_cluster.yml | tee /ansible.log '
