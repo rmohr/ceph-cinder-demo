@@ -27,13 +27,16 @@ openshift_hosted_etcd_storage_labels={'storage': 'etcd'}
 master openshift_ip={{ ansible_ssh_host }}
 
 [masters]
-master openshift_ip={{ ansible_ssh_host }}
+{% for host in groups['masters'] %}
+{{ host }} openshift_ip={{ hostvars[host].ansible_ssh_host }}
+{% endfor %}
 
 [etcd]
-master openshift_ip={{ ansible_ssh_host }}
+{% for host in groups['masters'] %}
+{{ host }} openshift_ip={{ hostvars[host].ansible_ssh_host }}
+{% endfor %}
 
 [nodes]
-master openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=true openshift_ip={{ ansible_ssh_host }}
 {% for host in groups['all'] %}
 {{ host }} openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=true openshift_ip={{ hostvars[host].ansible_ssh_host }}
 {% endfor %}
