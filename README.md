@@ -28,6 +28,14 @@ master    Ready     master    3h        v1.9.1+a0ce1bc657
 node      Ready     <none>    3h        v1.9.1+a0ce1bc657
 ```
 
+### Deploying OpenShift with Kcli 
+
+To deploy a similar setup with kcli, use the following
+
+```bash
+kcli plan
+```
+
 ### Storage Provisioner
 
 To deploy `storage` run
