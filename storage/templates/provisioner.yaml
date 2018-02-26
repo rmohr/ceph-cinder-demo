@@ -55,6 +55,11 @@ spec:
               fieldPath: status.hostIP
         - name: CEPH_PUBLIC_NETWORK
           value: "0.0.0.0/0"
+        - name: RGW_CIVETWEB_PORT
+          value: "81" # Don't clash with openshift
+        ports:
+          - containerPort: 6789
+            hostPort: 6789
         image: ceph/demo
         volumeMounts:
         - name: cephvarlib
