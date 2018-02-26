@@ -1,0 +1,14 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: demo-vm-tinycore
+  annotations:
+    k8s.io/CloneRequest: tinycore
+spec:
+  storageClassName: standalone-cinder
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
