@@ -24,17 +24,17 @@ openshift_hosted_etcd_storage_volume_size=1G
 openshift_hosted_etcd_storage_labels={'storage': 'etcd'}
 
 [nfs]
-{% for host in groups['masters'] %}
+{% for host in groups['master'] %}
 {{ host }} openshift_ip={{ hostvars[host].ansible_host }}
 {% endfor %}
 
 [masters]
-{% for host in groups['masters'] %}
+{% for host in groups['master'] %}
 {{ host }} openshift_ip={{ hostvars[host].ansible_host }}
 {% endfor %}
 
 [etcd]
-{% for host in groups['masters'] %}
+{% for host in groups['master'] %}
 {{ host }} openshift_ip={{ hostvars[host].ansible_host }}
 {% endfor %}
 

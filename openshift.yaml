@@ -4,14 +4,10 @@
   become_user: root
   roles:
     - common
-- hosts: masters
+- hosts: master
   become: true
   become_user: root
   roles:
     - common
     - master
-- hosts: config
-  become: true
-  become_user: root
-  roles:
     - config
