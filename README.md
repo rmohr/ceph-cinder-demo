@@ -28,6 +28,8 @@ master    Ready     master    3h        v1.9.1+a0ce1bc657
 node      Ready     <none>    3h        v1.9.1+a0ce1bc657
 ```
 
+**Note**: Right now we only support having a **single** master.
+
 ### Storage Provisioner
 
 To deploy `storage` run
@@ -109,11 +111,11 @@ First create an inventory:
 
 ```
 [nodes]
-node1 ansible_ssh_host=192.168.200.4 ansible_user=root
-node2 ansible_ssh_host=192.168.200.3 ansible_user=root
+node1 ansible_host=192.168.200.4 ansible_user=root
+node2 ansible_host=192.168.200.3 ansible_user=root
 
-[masters]
-master ansible_ssh_host=192.168.200.2 ansible_user=root
+[master]
+master ansible_host=192.168.200.2 ansible_user=root
 ```
 
 Save it in `myinventory`. Then run

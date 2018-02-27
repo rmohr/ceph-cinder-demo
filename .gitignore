@@ -6,3 +6,5 @@ id_rsa*
 .vagrant
 .oc
 .kubeconfig
+/oc.sh
+.virtctl

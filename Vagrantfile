@@ -35,21 +35,28 @@ Vagrant.configure(2) do |config|
         ansible.playbook = "openshift.yaml"
         ansible.groups = {
           "nodes" => ["node"],
-          "masters" => ["master"],
+          "master" => ["master"],
+          "config" => ["master"],
+        }
+      end
+      master.vm.provision "config", type: "ansible" do |ansible|
+        ansible.playbook = "openshift.yaml"
+        ansible.groups = {
+          "config" => ["master"],
         }
       end
       master.vm.provision "storage", type: "ansible" do |ansible|
         ansible.playbook = "storage.yaml"
         ansible.groups = {
           "nodes" => ["node"],
-          "masters" => ["master"],
+          "master" => ["master"],
         }
       end
       master.vm.provision "kubevirt", type: "ansible" do |ansible|
         ansible.playbook = "kubevirt.yaml"
         ansible.groups = {
           "nodes" => ["node"],
-          "masters" => ["master"],
+          "master" => ["master"],
         }
       end
   end
@@ -64,7 +71,7 @@ Vagrant.configure(2) do |config|
         ansible.playbook = "openshift.yaml"
         ansible.groups = {
           "nodes" => ["node"],
-          "masters" => ["master"],
+          "master" => ["master"],
         }
       end
   end
