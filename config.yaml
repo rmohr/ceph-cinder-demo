@@ -1,0 +1,5 @@
+- hosts: config
+  become: true
+  become_user: root
+  roles:
+    - config

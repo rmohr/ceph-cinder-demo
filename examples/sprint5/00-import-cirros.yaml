@@ -1,20 +1,7 @@
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: cirros
-spec:
-  storageClassName: standalone-cinder
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
 Version: v1
 kind: Pod
 metadata:
-  name: disk-importer
+  name: cirros-disk-importer
 spec:
   restartPolicy: OnFailure
   containers:

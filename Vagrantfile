@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
         }
       end
       master.vm.provision "config", type: "ansible" do |ansible|
-        ansible.playbook = "openshift.yaml"
+        ansible.playbook = "config.yaml"
         ansible.groups = {
           "config" => ["master"],
         }

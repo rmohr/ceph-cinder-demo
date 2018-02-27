@@ -1,0 +1,50 @@
+apiVersion: kubevirt.io/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: cirros-demo-vm
+spec:
+  terminationGracePeriodSeconds: 0
+  domain:
+    resources:
+      requests:
+        memory: 128M
+    devices:
+      disks:
+      - name: mydisk
+        volumeName: pvcvolume
+      - name: cloudinitdisk
+        volumeName: cloudinitvolume
+        disk:
+          bus: virtio
+  volumes:
+    - name: pvcvolume
+      persistentVolumeClaim:
+        claimName: demo-vm-cirros-pvc1
+    - name: cloudinitvolume
+      cloudInitNoCloud:
+        userDataBase64: "IyEvYmluL2Jhc2gKZWNobyAiaGVsbG8gd29ybGQiCg=="
+---
+apiVersion: kubevirt.io/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: cirros-demo-vm1
+  labels:
+    kubevirt.io/flavor: small
+spec:
+  terminationGracePeriodSeconds: 0
+  domain:
+    devices:
+      disks:
+      - name: mydisk
+        volumeName: pvcvolume
+      - name: cloudinitdisk
+        volumeName: cloudinitvolume
+        disk:
+          bus: virtio
+  volumes:
+    - name: pvcvolume
+      persistentVolumeClaim:
+        claimName: demo-vm-cirros-pvc2
+    - name: cloudinitvolume
+      cloudInitNoCloud:
+        userDataBase64: "IyEvYmluL2Jhc2gKZWNobyAiaGVsbG8gd29ybGQiCg=="
