@@ -1,3 +1,4 @@
 kubevirtRelease: sprint5
 storageRelease: latest
 openshiftRelease: openshift-ansible-3.9.0-0.42.0
+miqRelease: v0.1

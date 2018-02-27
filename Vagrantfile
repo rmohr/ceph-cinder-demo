@@ -59,6 +59,12 @@ Vagrant.configure(2) do |config|
           "master" => ["master"],
         }
       end
+      master.vm.provision "miq", type: "ansible" do |ansible|
+        ansible.playbook = "miq.yaml"
+        ansible.groups = {
+          "master" => ["master"],
+        }
+      end
   end
 
   config.vm.define "node" do |node|
