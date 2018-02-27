@@ -39,6 +39,9 @@ openshift_hosted_etcd_storage_labels={'storage': 'etcd'}
 {% endfor %}
 
 [nodes]
-{% for host in groups['all'] %}
+{% for host in groups['master'] %}
+{{ host }} openshift_node_labels="{'region': 'infra','zone': 'default', 'storage': 'yes'}" openshift_schedulable=true openshift_ip={{ hostvars[host].ansible_host }}
+{% endfor %}
+{% for host in groups['nodes'] %}
 {{ host }} openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=true openshift_ip={{ hostvars[host].ansible_host }}
 {% endfor %}
