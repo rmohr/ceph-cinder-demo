@@ -13,3 +13,10 @@ cluster-storage:
 
 cluster-kubevirt:
 	vagrant provision --provision-with=kubevirt
+
+cluster-clean:
+	rm .oc.sh -rf
+	rm oc.sh -rf
+	rm .kubeconfig -rf
+	rm .kubectl -rf
+	vagrant destroy
