@@ -114,6 +114,9 @@ node2 ansible_ssh_host=192.168.200.3 ansible_user=root
 
 [masters]
 master ansible_ssh_host=192.168.200.2 ansible_user=root
+
+[config]
+master ansible_ssh_host=192.168.200.2 ansible_user=root
 ```
 
 Save it in `myinventory`. Then run

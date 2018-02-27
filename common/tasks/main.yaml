@@ -3,7 +3,7 @@
   lineinfile:
     dest: /etc/hosts
     regexp: '.*{{ item }}$'
-    line: '{{ hostvars[item].ansible_ssh_host }} {{item}}'
+    line: '{{ hostvars[item].ansible_host }} {{item}}'
     state: present
   with_items: '{{ groups["all"] }}'  
 - name: Check if ssh key exists

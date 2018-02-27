@@ -7,7 +7,6 @@ cluster-up:
 cluster-openshift:
 	vagrant provision node --provision-with=node
 	vagrant provision master --provision-with=master
-	bash util/extract.sh
 
 cluster-storage:
 	vagrant provision --provision-with=storage

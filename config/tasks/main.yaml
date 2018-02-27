@@ -1,0 +1,26 @@
+- fetch:
+    src: /etc/origin/master/openshift-master.kubeconfig
+    dest: .kubeconfig
+    flat: yes
+- fetch:
+    src: /usr/local/bin/oc
+    dest: .oc
+    flat: yes
+- name: Make .oc executable
+  become: false
+  local_action:
+    module: file
+    mode: 0740
+    path: "{{ playbook_dir}}/.oc"
+- name: Prepare oc.sh
+  become: false
+  local_action:
+    module: template
+    src: "{{ role_path }}/templates/oc.sh"
+    dest: "{{ playbook_dir}}/oc.sh"
+- name: Make oc.sh executable
+  become: false
+  local_action:
+    module: file
+    mode: 0740
+    path: "{{ playbook_dir}}/oc.sh"
