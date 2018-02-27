@@ -12,12 +12,17 @@ spec:
       disks:
       - name: mydisk
         volumeName: pvcvolume
+      - name: cloudinitdisk
+        volumeName: cloudinitvolume
         disk:
-          dev: vda
+          bus: virtio
   volumes:
     - name: pvcvolume
       persistentVolumeClaim:
         claimName: demo-vm-cirros
+    - name: cloudinitvolume
+      cloudInitNoCloud:
+        userDataBase64: "IyEvYmluL2Jhc2gKZWNobyAiaGVsbG8gd29ybGQiCg=="
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
