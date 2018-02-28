@@ -3,7 +3,8 @@ kind: VirtualMachine
 metadata:
   name: cirros-demo-vm
 spec:
-  terminationGracePeriodSeconds: 0
+  nodeSelector:
+    kubernetes.io/hostname: vm-17-98.eng.lab.tlv.redhat.com
   domain:
     resources:
       requests:
@@ -31,7 +32,8 @@ metadata:
   labels:
     kubevirt.io/flavor: small
 spec:
-  terminationGracePeriodSeconds: 0
+  nodeSelector:
+    kubernetes.io/hostname: vm-17-98.eng.lab.tlv.redhat.com
   domain:
     devices:
       disks:
