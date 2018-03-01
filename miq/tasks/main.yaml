@@ -1,0 +1,7 @@
+---
+- name: Create miq client user
+  command: "/usr/local/bin/oc create sa miq"
+- name: Assign cluster admin to miq client user
+  command: "/usr/local/bin/oc policy add-role-to-user cluster-admin -z miq"
+- name: Create offlinevm CRD
+  command: "/usr/local/bin/oc create -f https://github.com/ManageIQ/manageiq-providers-kubevirt/releases/download/{{ miqRelease }}/crd-offline-virtual-machine.yml"

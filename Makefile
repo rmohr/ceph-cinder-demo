@@ -1,5 +1,5 @@
 
-all: cluster-up cluster-openshift cluster-storage cluster-kubevirt
+all: cluster-up cluster-openshift cluster-storage cluster-kubevirt cluster-miq
 
 cluster-up:
 	vagrant up --no-provision
@@ -13,6 +13,9 @@ cluster-storage:
 
 cluster-kubevirt:
 	vagrant provision --provision-with=kubevirt
+
+cluster-miq:
+	vagrant provision --provision-with=miq
 
 cluster-clean:
 	rm .oc.sh -rf

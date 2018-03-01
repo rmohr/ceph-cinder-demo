@@ -105,6 +105,43 @@ $ ./oc.sh get vms -o yaml | grep phase
     phase: Running
 ```
 
+## ManageIQ - kubevirt provider configuration
+
+To configure `KubeVirt provider` run
+
+```
+make cluster-miq
+```
+
+Once it is done, you can see that service account was created
+
+```bash
+./oc.sh get sa
+NAME       SECRETS   AGE
+builder    2         20m
+default    3         19m
+deployer   2         20m
+miq        2         19s
+registry   3         14m
+router     2         14m
+```
+
+and offlinevms custom resource was created
+
+```bash
+./oc.sh get offlinevms
+No resources found.
+```
+
+In order to configure provider in `ManageIQ` there are two tokens needed by running
+
+```bash
+./oc.sh sa get-token -n management-infra management-admin
+
+./oc.sh sa get-token -n default miq
+```
+
+
 ## Deploying OpenShift on arbitrary nodes
 
 First create an inventory:
