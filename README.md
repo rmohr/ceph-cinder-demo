@@ -90,8 +90,8 @@ $ ./oc.sh get vms -o yaml | grep phase
 To connect to a VM:
 
 ```bash
-./oc.sh console demo-vm  # Serial console
-./oc.sh vnc demo-vm      # VNC
+./oc.sh console testvm-ephemeral  # Serial console
+./oc.sh vnc testvm-ephemeral      # VNC
 ```
 
 To import and run a cirros vm:
